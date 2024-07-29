@@ -5,7 +5,7 @@ import logo from "@/public/mechanic-removebg-preview.png";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 
 export default function Home() {
-  const words = ["Fast", "Reliable", "Easy","Convenient"];
+  const words = ["Fast", "Reliable", "Easy"];
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -15,10 +15,10 @@ export default function Home() {
   const pauseDuration = 1000; // Pause duration between texts (ms)
 
   useEffect(() => {
-    let timer;
+    let timer: number;
     if (isDeleting) {
       if (charIndex > 0) {
-        timer = setTimeout(() => {
+        timer = window.setTimeout(() => {
           setText((prev) => prev.substring(0, prev.length - 1));
           setCharIndex((prev) => prev - 1);
         }, erasingSpeed);
@@ -29,16 +29,17 @@ export default function Home() {
       }
     } else {
       if (charIndex < words[currentWordIndex].length) {
-        timer = setTimeout(() => {
+        timer = window.setTimeout(() => {
           setText((prev) => prev + words[currentWordIndex].charAt(charIndex));
           setCharIndex((prev) => prev + 1);
         }, typingSpeed);
       } else {
-        timer = setTimeout(() => setIsDeleting(true), pauseDuration);
+        timer = window.setTimeout(() => setIsDeleting(true), pauseDuration);
       }
     }
     return () => clearTimeout(timer);
   }, [text, isDeleting, charIndex, currentWordIndex, words]);
+
 
   return (
     <>
